@@ -1,0 +1,105 @@
+<app-header></app-header>
+<div class="container">
+  <div class="mx-5 p-3">
+    <div class="row">
+      <div class="col-8">
+      </div>
+      <div class="col">
+        <button type="button" class="btn btn-primary" style="float: right;" data-bs-toggle="modal" href="#addEditModal">Add New Customer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="card mx-5 mb-5 p-3">
+      <div class="card-body">
+        <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Phone number</th>
+                  <th>Email</th>
+                  <th>Address</th>
+                  <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+                <!-- (click) = "addEle()" -->
+              <tr *ngFor="let customer of customers">
+                  <td>{{ customer.id }}</td>
+                  <td>{{ customer.name }}</td>
+                  <td>{{ customer.mobile }}</td>
+                  <td>{{ customer.email }}</td>
+                  <td>{{ customer.address }}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-warning" (click) = "editEle(customer.id)">Edit</button>
+                    <button type="button" class="btn btn-sm btn-danger m-1" (click) = "deleteEle(customer.id)">Delete</button>
+                  </td>
+              </tr>
+              </tbody>
+          </table>
+      </div>
+
+  </div>
+</div>
+
+
+
+<!-- Modal content -->
+<div class="modal fade" id="addEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Customer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form novalidate [formGroup]="custForm" (ngSubmit)="onSubmit()">
+        <input type="hidden" class="form-control" id="customerId" formControlName="customerId" >
+        <input type="hidden" class="form-control" id="status" formControlName="status">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name<span><sup class="text-danger">*</sup></span></label>
+            <input type="text" class="form-control" id="name" formControlName="name" required minlength="4">
+            <div class="invalid-feedback" *ngIf="custForm.controls.name.invalid && (custForm.controls.name.dirty || custForm.controls.name.touched)">
+              Name is required and must be more than four characters.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="mobile" class="form-label">Mobile Number<span><sup class="text-danger">*</sup></span></label>
+            <input type="text" class="form-control" id="mobile" formControlName="mobile" required minlength="10">
+            <div class="invalid-feedback" *ngIf="custForm.controls.mobile.invalid && (custForm.controls.mobile.dirty || custForm.controls.mobile.touched)">
+              Mobile number is required and must be more than 10 digits.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address<span><sup class="text-danger">*</sup></span></label>
+            <input type="email" class="form-control" id="email" placeholder="name@example.com" formControlName="email" required>
+            <div class="invalid-feedback" *ngIf="custForm.controls.email.invalid && (custForm.controls.email.dirty || custForm.controls.email.touched)">
+              Please enter valid email address.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="gst_no" class="form-label">Gst No.<span><sup class="text-danger">*</sup></span></label>
+            <input type="gst_no" class="form-control" id="gst_no" formControlName="gst_no" required>
+            <div class="invalid-feedback" *ngIf="custForm.controls.gst_no.invalid && (custForm.controls.gst_no.dirty || custForm.controls.gst_no.touched)">
+              Please enter valid GST number.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="address" class="form-label">Address<span><sup class="text-danger">*</sup></span></label>
+            <textarea class="form-control" id="address" rows="3" formControlName="address" required></textarea>
+            <div class="invalid-feedback" *ngIf="custForm.controls.address.invalid && (custForm.controls.address.dirty || custForm.controls.address.touched)">
+              Address is required.
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeCustModal>Close</button>
+          <button type="submit" class="btn btn-primary" [disabled] = "(!custForm.valid || isSubmit)">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
