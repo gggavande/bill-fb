@@ -24,25 +24,28 @@ export class CustomerService {
   }
 
   get(id: string) {
-    const pokemonDocumentReference = doc(this.firestore, `pokemon/${id}`);
-    return docData(pokemonDocumentReference, { idField: 'id' });
+    const customerDocumentReference = doc(this.firestore, `customer/${id}`);
+    return docData(customerDocumentReference, { idField: 'id' });
   }
 
   create(customer: Customer) {
+    delete customer.id;
     return addDoc(this.customerCollection, customer);
   }
 
   update(customer: Customer) {
-    const pokemonDocumentReference = doc(
+    let id = customer.id;
+    delete customer.id;
+    const customerDocumentReference = doc(
       this.firestore,
-      `pokemon/${customer.customerId}`
+      `customer/${id}`
     );
-    return updateDoc(pokemonDocumentReference, { ...customer });
+    return updateDoc(customerDocumentReference, { ...customer });
   }
 
   delete(id: string) {
-    const pokemonDocumentReference = doc(this.firestore, `customer/${id}`);
-    return deleteDoc(pokemonDocumentReference);
+    const customerDocumentReference = doc(this.firestore, `customer/${id}`);
+    return deleteDoc(customerDocumentReference);
   }
 
 }

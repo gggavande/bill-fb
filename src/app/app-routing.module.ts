@@ -1,9 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { GenerateBillComponent } from './bill/generate-bill/generate-bill.component';
+import { ViewBillComponent } from './bill/view-bill/view-bill.component';
 import { CustomerListingComponent } from './customer/customer-listing/customer-listing.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
+  { path: '', component: HomeComponent },
   { path: 'customers', component: CustomerListingComponent },
+  { path: 'bill', component: GenerateBillComponent },
+  { path: 'view-bill/:billId', component: ViewBillComponent },
 ];
 
 @NgModule({

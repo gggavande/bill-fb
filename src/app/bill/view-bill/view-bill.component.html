@@ -1,0 +1,134 @@
+<app-header></app-header>
+<div class="invoice-box topMar" >
+    <table cellpadding="0" cellspacing="0" >
+        <tr class="top">
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td class="title">
+                            <!-- <img src=<?php echo STATICIMG; ?>/logo.png style="width:100%; max-width:300px;"> -->
+                            <img src="http://localhost/testslim_1/asset/logo/logo.png" style="width:100%; max-width:300px; margin-top: -23px; max-width:473px;">
+                            <!-- <i><b>Gavande Brother's</b></i><br>
+                            <i><small style="font-size: 18px; text-align: right;">Engineers & Surveyors</small></i> -->
+                        </td>
+
+                        <td style="text-align:right;">
+                            Jai Jawan Chowk, Indiranagar,Sangamner.<br>
+                            Tal.:Sangamner<br>
+                            Dist.:Ahmednagar,422605<br>
+                            7350442744,8605873175<br>
+                            gavandebrothers@gmail.com
+                        </td>
+                    </tr>
+                    <strong>Prop</strong>: Somnath Arun Gavande
+                </table>
+        <hr>
+            </td>
+        </tr>
+
+        <tr class="information">
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td>
+                            Invoice #: {{billNo}}<br>
+                            Date: {{date | date}}<br>
+                            <strong>GST.: 27BEGPG5692M1ZX<br></strong>
+                            <strong>HSN no.: 9015<br></strong>
+                            <!-- <strong>PAN No.: BNUPG2300P<br></strong>
+                            Account No.: 20200809605<br>
+                            IFSC Code : SBIN0013276 -->
+                            <!-- Due: February 1, 2015 -->
+                        </td>
+
+                        <td>
+                            {{customerName}}.<br>
+                            <span *ngIf = "customerEmail != ''">{{customerEmail}}.<br> </span>
+                            {{customerMobile}}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <table class="itemBord" >
+            <tr class="heading">
+                <td width="60%">
+                    Item
+                </td>
+
+                <td>
+                    Rate
+                </td>
+
+                <td>
+                    Unit
+                </td>
+
+                <td>
+                    Amount
+                </td>
+            </tr>
+
+            <tr class="item" *ngFor="let item of items">
+                <td>
+                    {{item.name}}
+                </td>
+
+                <td>
+                    {{item.rate == 0 ? '' : item.rate}}
+                </td>
+
+                <td>
+                    {{item.unit == 0 ? '' : item.unit}}
+                </td>
+
+                <td>
+                    {{item.amount}}
+                </td>
+            </tr>
+            <tr class="item" *ngIf="gstStatus == 1">
+                <td>
+                    CGST (9%)
+                </td>
+                <td></td>
+                <td></td>
+
+                <td>
+                    {{gstAmount/2}}
+                </td>
+            </tr>
+            <tr class="item" *ngIf="gstStatus == 1">
+                <td>
+                    SGST (9%)
+                </td>
+                <td></td>
+                <td></td>
+
+                <td>
+                    {{gstAmount/2}}
+                </td>
+            </tr>
+            <tr>
+              <td colspan="4" style="height: 500px;"></td>
+            </tr>
+
+            <tfoot class="itemBord">
+                <tr>
+                    <td><strong>Total</strong></td>
+
+                    <td colspan="3">
+                    {{amount}}
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="right">{{amountInWords  | titlecase}}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </table>
+</div>
+<div class="printBtn-box mt-2 noprint text-center">
+    <button class="btn btn-info " (click) = "printPage()" >print</button>
+</div>

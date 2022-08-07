@@ -10,12 +10,21 @@ import { CustomerListingComponent } from './customer/customer-listing/customer-l
 import { HeaderComponent } from './includes/header/header.component';
 import { DataTablesModule } from 'angular-datatables';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
+import { GenerateBillComponent } from './bill/generate-bill/generate-bill.component';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { DatePipe } from '@angular/common';
+import { ViewBillComponent } from './bill/view-bill/view-bill.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomerListingComponent,
-    HeaderComponent
+    HeaderComponent,
+    HomeComponent,
+    GenerateBillComponent,
+    ViewBillComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,9 +32,10 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     DataTablesModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AutocompleteLibModule
   ],
-  providers: [FormBuilder],
+  providers: [FormBuilder,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

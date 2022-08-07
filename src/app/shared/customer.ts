@@ -1,5 +1,5 @@
 export interface Customer {
-  customerId:any;
+  id:any;
   address:string;
   email:string;
   gst_no:string;

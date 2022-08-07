@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="container">
+<div class="container topMar">
   <div class="mx-5 p-3">
     <div class="row">
       <div class="col-8">
@@ -11,31 +11,44 @@
   </div>
 </div>
 
+<div class="container" *ngIf="delStatus">
+  <div class="alert alert-success alert-dismissible fade show mx-5 p-3" role="alert">
+    <strong>{{delAlertContent}}!</strong> Record {{delAlertContent}} Successfully.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click) = "resetDel()"></button>
+  </div>
+</div>
+
 <div class="container">
   <div class="card mx-5 mb-5 p-3">
       <div class="card-body">
         <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
           <thead>
               <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Phone number</th>
-                  <th>Email</th>
-                  <th>Address</th>
-                  <th>Action</th>
+                  <!-- <th>ID</th> -->
+                  <th width="10%">Name</th>
+                  <th width="10%">Mobile</th>
+                  <th width="10%">Email</th>
+                  <th width="10%">GST No.</th>
+                  <th width="50%">Address</th>
+                  <th width="10%">Action</th>
               </tr>
               </thead>
               <tbody>
                 <!-- (click) = "addEle()" -->
               <tr *ngFor="let customer of customers">
-                  <td>{{ customer.id }}</td>
+                  <!-- <td>{{ customer.id }}</td> -->
                   <td>{{ customer.name }}</td>
                   <td>{{ customer.mobile }}</td>
                   <td>{{ customer.email }}</td>
+                  <td>{{ customer.gst_no }}</td>
                   <td>{{ customer.address }}</td>
                   <td>
-                    <button type="button" class="btn btn-sm btn-warning" (click) = "editEle(customer.id)">Edit</button>
-                    <button type="button" class="btn btn-sm btn-danger m-1" (click) = "deleteEle(customer.id)">Delete</button>
+                    <button type="button" class="btn btn-sm btn-warning" (click) = "editEle(customer.id)" title="Edit"  data-bs-toggle="modal" href="#addEditModal">
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-danger m-1" (click) = "openConfirm(content,customer.id)" title="Delete">
+                      <i class="bi bi-trash"></i>
+                    </button>
                   </td>
               </tr>
               </tbody>
@@ -56,7 +69,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form novalidate [formGroup]="custForm" (ngSubmit)="onSubmit()">
-        <input type="hidden" class="form-control" id="customerId" formControlName="customerId" >
+        <input type="hidden" class="form-control" id="id" formControlName="id" >
         <input type="hidden" class="form-control" id="status" formControlName="status">
         <div class="modal-body">
           <div class="mb-3">
@@ -103,3 +116,23 @@
     </div>
   </div>
 </div>
+
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">×</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <p>Are you sure to delete this?</p>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="d('Cross click')">Cancel</button>
+      <button type="button" class="btn btn-danger" (click)="c('yes')">Yes</button>
+  </div>
+</ng-template>
+
+
