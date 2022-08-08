@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collectionData, deleteDoc, doc, docData, Firestore, updateDoc } from '@angular/fire/firestore';
+import { addDoc, collectionData, deleteDoc, doc, docData, Firestore, getDocs, getFirestore, query, updateDoc, where } from '@angular/fire/firestore';
 import { CollectionReference, DocumentData,collection, } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 import { Bill } from '../shared/bill'
@@ -21,6 +21,13 @@ export class BillService {
     return collectionData(this.billCollection, {
       idField: 'id',
     }) as Observable<Bill[]>;
+  }
+
+  async getAllByCustomerId(id : any) {
+    const db = getFirestore();
+    const q = query(collection(db, "bills"), where("customerId", "==", id));
+
+    return await getDocs(q);
   }
 
   get(id: string) {

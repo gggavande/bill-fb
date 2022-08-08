@@ -143,7 +143,7 @@ export class GenerateBillComponent implements OnInit {
       let month = new Date().getMonth().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
       let dayst = new Date().getDate().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
       let datebn2 = Date.now();
-      let billNo = year.toString()+month.toString()+dayst.toString()+datebn2.toString;
+      let billNo = year.toString()+month.toString()+dayst.toString()+Math.floor(100000 + Math.random() * 900000);
 
       var dataNew : Bill = {
         id:'',
@@ -185,6 +185,9 @@ export class GenerateBillComponent implements OnInit {
 
       this.billItemService.create(dataNew).then((res : any) => {
         console.log(res);
+        if(index == formData.noOfItem){
+          this.router.navigate(['view-bill/'+btoa(formData["billId"])]);
+        }
       });
     }
   }

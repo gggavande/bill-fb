@@ -15,6 +15,8 @@ import { GenerateBillComponent } from './bill/generate-bill/generate-bill.compon
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { DatePipe } from '@angular/common';
 import { ViewBillComponent } from './bill/view-bill/view-bill.component';
+import { AmountToWordPipe } from './pipes/amount-to-word.pipe';
+import { CustomerBillsComponent } from './customer/customer-bills/customer-bills.component';
 
 
 @NgModule({
@@ -25,6 +27,8 @@ import { ViewBillComponent } from './bill/view-bill/view-bill.component';
     HomeComponent,
     GenerateBillComponent,
     ViewBillComponent,
+    AmountToWordPipe,
+    CustomerBillsComponent,
   ],
   imports: [
     BrowserModule,

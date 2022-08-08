@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HelperFunctionService } from 'src/app/common/helper-function.service';
 import { BillService } from 'src/app/services/bill.service';
 import { BillitemService } from 'src/app/services/billitem.service';
+import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({
   selector: 'app-view-bill',
@@ -26,7 +26,7 @@ export class ViewBillComponent implements OnInit {
   amountInWords : string = '';
   urlBillId : any = '';
 
-  constructor(private route : ActivatedRoute , private helpers : HelperFunctionService, private billService : BillService, private billItemService : BillitemService) {
+  constructor(private route : ActivatedRoute, private billService : BillService, private billItemService : BillitemService, private customerService : CustomerService) {
     this.route.paramMap.subscribe(params => {
       // this.billId = atob(params.get('billId'));
       this.urlBillId = params.get('billId');
@@ -41,22 +41,23 @@ export class ViewBillComponent implements OnInit {
 
   fetchBill(){
     this.billService.get(this.billId).subscribe(response => {
-      console.log(response);
       this.billNo = response['billNo'];
       this.date = response['date'];
       this.amount = response['amount'];
       this.gstStatus = response['gstStatus'];
       this.gstAmount = response['gstAmount'];
-      this.amountInWords = this.helpers.numToWord(response['amount']);
-      console.log(this.amountInWords);
+      // this.amountInWords = this.helpers.numToWord(response['amount']);
       this.billItemService.getAllByBillId(this.billId).then(res=>{
         res.forEach((doc : any) => {
-          // doc.data() is never undefined for query doc snapshots
           this.items.push(doc.data());
         });
-        console.log('////////////////////////');
-        console.log(this.items);
-      })
+      });
+
+      this.customerService.get(response['customerId']).subscribe(res => {
+        this.customerName = res['name'];
+        this.customerEmail = res['email'];
+        this.customerMobile = res['mobile'];
+      });
 
       /* this.items = response.data.item;
       this.customerName = response.data.customer.name;

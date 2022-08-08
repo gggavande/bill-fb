@@ -95,7 +95,7 @@
                 <td></td>
 
                 <td>
-                    {{gstAmount/2}}
+                    {{gstAmount/2 | number : '1.2-2'}}
                 </td>
             </tr>
             <tr class="item" *ngIf="gstStatus == 1">
@@ -106,7 +106,7 @@
                 <td></td>
 
                 <td>
-                    {{gstAmount/2}}
+                    {{gstAmount/2 | number : '1.2-2'}}
                 </td>
             </tr>
             <tr>
@@ -118,12 +118,12 @@
                     <td><strong>Total</strong></td>
 
                     <td colspan="3">
-                    {{amount}}
+                    {{amount | number : '1.2-2'}}
 
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4" align="right">{{amountInWords  | titlecase}}</td>
+                    <td colspan="4" align="right">{{amount  | amountToWord}}</td>
                 </tr>
             </tfoot>
         </table>

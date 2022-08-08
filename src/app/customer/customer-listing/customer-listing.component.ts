@@ -6,6 +6,7 @@ import { Customer } from '../../shared/customer'
 import { ViewChild} from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {DataTableDirective} from 'angular-datatables';
+import { BillService } from 'src/app/services/bill.service';
 
 
 
@@ -31,7 +32,7 @@ export class CustomerListingComponent implements OnInit,OnDestroy  {
   isDtInitialized:boolean = false
 
 
-  constructor( private customerService : CustomerService, private formBuilder : FormBuilder, private modalService: NgbModal) {
+  constructor( private customerService : CustomerService, private formBuilder : FormBuilder, private modalService: NgbModal, private billService : BillService) {
 
   }
 
@@ -154,6 +155,14 @@ export class CustomerListingComponent implements OnInit,OnDestroy  {
     }, (reason) => {
       console.log(reason);
     });
+  }
+
+  viewBills(custId : any){
+    this.billService.getAllByCustomerId(custId).then(res => {
+      res.forEach((doc : any) => {
+        console.log(doc.data());
+      });
+    })
   }
 
 }
