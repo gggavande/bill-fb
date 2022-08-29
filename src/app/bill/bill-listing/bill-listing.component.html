@@ -1,0 +1,64 @@
+<app-header></app-header>
+<div class="container topMar">
+  <!-- <div class="mx-6 p-3">
+    <div class="row">
+      <div class="col-8">
+      </div>
+      <div class="col">
+        <button type="button" class="btn btn-primary" style="float: right;" data-bs-toggle="modal" href="#addEditModal">Add New Customer</button>
+      </div>
+    </div>
+  </div> -->
+</div>
+
+<!-- <div class="container" *ngIf="delStatus">
+  <div class="alert alert-success alert-dismissible fade show mx-6 p-3" role="alert">
+    <strong>{{delAlertContent}}!</strong> Record {{delAlertContent}} Successfully.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click) = "resetDel()"></button>
+  </div>
+</div> -->
+
+<div class="container">
+  <div class="card mx-6 mb-6 p-3">
+      <div class="card-body">
+        <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+          <thead>
+              <tr>
+                  <!-- <th>ID</th> -->
+                  <th width="30%">Site Name</th>
+                  <th width="10%">Location.</th>
+                  <th width="10%">Amount.</th>
+                  <th width="20%">Enginners Name</th>
+                  <th width="10%">Total Items</th>
+                  <th width="12%">Action</th>
+              </tr>
+              </thead>
+              <tbody>
+                <!-- (click) = "addEle()" -->
+              <tr *ngFor="let billSingle of billsData">
+                  <!-- <td>{{ customer.id }}</td> -->
+                  <td>{{ billSingle.siteName }}</td>
+                  <td>{{ billSingle.location }}</td>
+                  <td>{{ billSingle.amount }}</td>
+                  <td>{{ billSingle.engineersName }}</td>
+                  <td>{{ billSingle.itemCount }}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-warning" (click) = "editEle(billSingle.id)" title="Edit" >
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-danger m-1" (click) = "openConfirm(content,billSingle.id)" title="Delete">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-success m-1" (click) = "viewBill(billSingle.id)" title="View Bills">
+                      <i class="bi bi-eye-fill"></i>
+                    </button>
+                  </td>
+              </tr>
+              </tbody>
+          </table>
+      </div>
+
+  </div>
+</div>
+
+

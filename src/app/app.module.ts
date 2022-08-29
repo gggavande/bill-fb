@@ -17,6 +17,7 @@ import { DatePipe } from '@angular/common';
 import { ViewBillComponent } from './bill/view-bill/view-bill.component';
 import { AmountToWordPipe } from './pipes/amount-to-word.pipe';
 import { CustomerBillsComponent } from './customer/customer-bills/customer-bills.component';
+import { BillListingComponent } from './bill/bill-listing/bill-listing.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { CustomerBillsComponent } from './customer/customer-bills/customer-bills
     ViewBillComponent,
     AmountToWordPipe,
     CustomerBillsComponent,
+    BillListingComponent,
   ],
   imports: [
     BrowserModule,

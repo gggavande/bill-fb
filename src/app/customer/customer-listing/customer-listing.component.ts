@@ -7,6 +7,7 @@ import { ViewChild} from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {DataTableDirective} from 'angular-datatables';
 import { BillService } from 'src/app/services/bill.service';
+import { Router } from '@angular/router';
 
 
 
@@ -32,7 +33,7 @@ export class CustomerListingComponent implements OnInit,OnDestroy  {
   isDtInitialized:boolean = false
 
 
-  constructor( private customerService : CustomerService, private formBuilder : FormBuilder, private modalService: NgbModal, private billService : BillService) {
+  constructor( private router : Router, private customerService : CustomerService, private formBuilder : FormBuilder, private modalService: NgbModal, private billService : BillService) {
 
   }
 
@@ -158,11 +159,12 @@ export class CustomerListingComponent implements OnInit,OnDestroy  {
   }
 
   viewBills(custId : any){
-    this.billService.getAllByCustomerId(custId).then(res => {
+    this.router.navigate(['view-bills/'+btoa(custId)]);
+    /* this.billService.getAllByCustomerId(custId).then(res => {
       res.forEach((doc : any) => {
         console.log(doc.data());
       });
-    })
+    }) */
   }
 
 }
