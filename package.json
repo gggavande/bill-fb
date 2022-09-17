@@ -28,6 +28,7 @@
     "datatables.net-bs5": "^1.11.3",
     "jquery": "^3.6.0",
     "jqwidgets-ng": "^14.1.17",
+    "pdfmake": "^0.2.5",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -39,6 +40,7 @@
     "@types/datatables.net": "^1.10.21",
     "@types/jasmine": "~4.0.0",
     "@types/jquery": "^3.5.9",
+    "@types/pdfmake": "^0.2.1",
     "jasmine-core": "~4.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",

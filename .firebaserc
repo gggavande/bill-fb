@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "bill-6f1d4": {
+      "hosting": {
+        "billing": [
+          "bill-6f1d4"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "bill-6f1d4"
+  }
+}

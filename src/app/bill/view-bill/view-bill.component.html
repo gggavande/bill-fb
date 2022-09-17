@@ -127,5 +127,8 @@
     </table>
 </div>
 <div class="printBtn-box mt-2 noprint text-center">
-    <button class="btn btn-info " (click) = "printPage()" >print</button>
+    <!-- <button class="btn btn-info " (click) = "printPage()" >print</button> -->
+    <button class="btn btn-info" style="margin-right: 1%;" (click) = "generatePdf('print')" >print</button>
+    <button class="btn btn-success" style="margin-right: 1%;" (click) = "generatePdf('download')" >Download</button>
+    <button class="btn btn-warning" style="margin-right: 1%;" (click) = "generatePdf('open')" >Open</button>
 </div>

@@ -1,8 +1,13 @@
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BillService } from 'src/app/services/bill.service';
 import { BillitemService } from 'src/app/services/billitem.service';
 import { CustomerService } from 'src/app/services/customer.service';
+import { Imagesbase64Service } from "src/app/services/imagesbase64.service";
+import { AmountToWordPipe } from "src/app/pipes/amount-to-word.pipe";
 
 @Component({
   selector: 'app-view-bill',
@@ -25,8 +30,9 @@ export class ViewBillComponent implements OnInit {
   customerMobile : any;
   amountInWords : string = '';
   urlBillId : any = '';
+  amtWrdPipe = new AmountToWordPipe();
 
-  constructor(private route : ActivatedRoute, private billService : BillService, private billItemService : BillitemService, private customerService : CustomerService) {
+  constructor(private route : ActivatedRoute, private billService : BillService, private billItemService : BillitemService, private customerService : CustomerService, private imageService : Imagesbase64Service) {
     this.route.paramMap.subscribe(params => {
       // this.billId = atob(params.get('billId'));
       this.urlBillId = params.get('billId');
@@ -91,4 +97,136 @@ export class ViewBillComponent implements OnInit {
   printPage() {
     window.print();
   }
+
+  generatePdf(action : string){
+    let rowsCnt = this.items.length;
+    let tableData : any = [
+      [
+        {fillColor: '#eeeeee',text : {text : 'Item',style: 'tabHead'}},
+        {fillColor: '#eeeeee',text : {text : 'Rate',style: 'tabHead'}},
+        {fillColor: '#eeeeee',text : {text : 'Unit',style: 'tabHead'}},
+        {fillColor: '#eeeeee',text : {text : 'Amount',style: 'tabHead'}},
+      ]
+    ];
+    this.items.forEach((doc : any) => {
+      let tempData = [];
+      tempData.push(doc.name);
+      tempData.push(doc.rate);
+      tempData.push(doc.unit);
+      tempData.push(doc.amount);
+      tableData.push(tempData);
+    });
+
+    if(this.gstStatus == 1){
+      rowsCnt += 2;
+      let tempData = [];
+      tempData.push('CGST (9%)');
+      tempData.push('');
+      tempData.push('');
+      tempData.push((this.gstAmount/2).toFixed(2));
+      tableData.push(tempData);
+      tempData = [];
+      tempData.push('SGST (9%)');
+      tempData.push('');
+      tempData.push('');
+      tempData.push((this.gstAmount/2).toFixed(2));
+      tableData.push(tempData);
+    }
+
+    let footMarg = (650-170)-(rowsCnt*18);
+    let amtInWords = this.amtWrdPipe.transform(this.amount)
+
+
+    // const documentDefinition = { conte/////////////nt: 'This is an sample PDF printed with pdfMake' };
+    const dd : any = {
+      watermark: { text: 'Gavande Brothers', color: 'grey', opacity: 0.1, angle : -50, bold: true, italics: true },
+      content: [
+        {
+          table: {
+            widths: [250, 250],
+            body: [
+              [{image: this.imageService.logoImg,width : 200}, {
+                text: 'Jai Jawan Chowk, Indiranagar,Sangamner.\nTal.:Sangamner\nDist.:Ahmednagar,422605\n7350442744\ngavandebrothers@gmail.com',
+                margin: [80, 0, 0, 0],
+              }],
+              [{text : [{text : 'Prop: ',style: 'boldStyle'},'Somnath Arun Gavande'],colSpan: 2, alignment: 'center'}]
+            ]
+          },
+          layout: 'noBorders',
+          // margin: [0, 600, 0, 0],
+        },
+        {canvas: [ { type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1 } ]},
+        {
+          table: {
+            widths: [250, 250],
+            body: [
+              [
+                {
+                  text: [
+                    {text : 'Invoice No.: ',style: 'boldStyle'},this.billNo,
+                    '\n',
+                    {text : 'Date: ',style: 'boldStyle'},new Date().toDateString().substr(3),
+                    '\n',
+                    {text : 'GST: ',style: 'boldStyle'},'27BEGPG5692M1ZX',
+                    '\n',
+                    {text : 'HSN No.: ',style: 'boldStyle'},'9015',
+                  ]
+                },
+                {
+                  text: [
+                    this.customerName,
+                    '\n',
+                    this.customerEmail,
+                    '\n',
+                    this.customerMobile
+                  ],
+                  margin: [100, 0, 0, 0],
+                }
+              ]
+            ]
+          },
+          layout: 'noBorders'
+        },
+        {
+          table: {
+            widths: [250, 70, 72, 90],
+            body: tableData
+          },
+        },
+        {
+          table: {
+            widths: [250, 250],
+            body: [
+              [
+                {
+                  text: {text : 'Total',style: 'boldStyle'},
+                },
+                {
+                  text: this.amount.toFixed(2),
+                }
+              ],
+              [{text : amtInWords,colSpan: 2, alignment: 'right'}]
+            ]
+          },
+          margin: [0, footMarg, 0, 0],
+        },
+      ],
+      styles: {
+        boldStyle: {
+          bold: true,
+        },
+        tabHead: {
+          bold: true,
+        }
+      }
+    }
+    // pdfMake.createPdf(documentDefinition).open();
+    if(action == 'print'){
+      pdfMake.createPdf(dd).print();
+    }else if(action == 'download'){
+      pdfMake.createPdf(dd).download(this.customerName+'_'+this.billNo+'.pdf');
+    }else{
+      pdfMake.createPdf(dd).open();
+    }
+   }
 }
