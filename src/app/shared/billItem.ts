@@ -7,4 +7,5 @@ export interface Billitem {
   rate:number;
   unit:number;
   status:number;
+  itemNo: number;
 }

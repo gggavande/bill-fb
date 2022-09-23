@@ -30,9 +30,7 @@ export class GenerateBillComponent implements OnInit {
   constructor(private datePipe: DatePipe, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private customerService : CustomerService, private billService : BillService, private billItemService : BillitemService) { }
 
   ngOnInit(): void {
-    console.log(btoa('PCGgBt1DndSz0T1W808c'));
     this.myDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    console.log(this.myDate)
 
     this.billForm = this.fb.group({
       custName: ['',[Validators.required,Validators.min(4)]],
@@ -180,6 +178,7 @@ export class GenerateBillComponent implements OnInit {
         name : formData["item"+index],
         rate : formData["item"+index+"Rate"],
         unit : formData["item"+index+"Unit"],
+        itemNo : index,
         status : 1,
       }
 

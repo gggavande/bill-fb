@@ -18,6 +18,7 @@ import { ViewBillComponent } from './bill/view-bill/view-bill.component';
 import { AmountToWordPipe } from './pipes/amount-to-word.pipe';
 import { CustomerBillsComponent } from './customer/customer-bills/customer-bills.component';
 import { BillListingComponent } from './bill/bill-listing/bill-listing.component';
+import { EditBillComponent } from './bill/edit-bill/edit-bill.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { BillListingComponent } from './bill/bill-listing/bill-listing.component
     AmountToWordPipe,
     CustomerBillsComponent,
     BillListingComponent,
+    EditBillComponent,
   ],
   imports: [
     BrowserModule,

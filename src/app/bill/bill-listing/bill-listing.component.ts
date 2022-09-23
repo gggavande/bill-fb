@@ -81,6 +81,7 @@ export class BillListingComponent implements OnInit, OnDestroy {
 
   editEle(id : any){
     console.log(id);
+    this.router.navigate(['edit-bill/'+btoa(id)]);
 
   }
 

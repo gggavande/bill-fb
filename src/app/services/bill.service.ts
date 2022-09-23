@@ -43,7 +43,7 @@ export class BillService {
   update(bill: Bill) {
     const billDocumentReference = doc(
       this.firestore,
-      `bill/${bill.id}`
+      `bills/${bill.id}`
     );
     return updateDoc(billDocumentReference, { ...bill });
   }

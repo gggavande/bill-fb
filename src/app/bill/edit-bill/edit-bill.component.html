@@ -1,0 +1,142 @@
+<app-header></app-header>
+
+<div class="container col-md-10 col-md-offset-2 card topMar cardBG">
+    <h3 style="text-align: center;">Bill Details</h3>
+    <form class="px-2 py-2" [formGroup]="billForm" (ngSubmit)="onSubmit(billForm)">
+        <input type="hidden" formControlName="noOfItem">
+        <div class="form-row row">
+          <div class="form-group autocomplete mb-3 col-8">
+              <label for="exampleInputEmail1"><strong>Customer Name</strong></label>
+              <input  type="text" class="form-control" id="custNameDis" value="{{customerName}}" disabled>
+              <input  type="hidden" class="form-control" id="custName" formControlName="custName" value="{{custDetails}}">
+              <input  type="hidden" class="form-control" id="billNo" formControlName="billNo" value="{{billNo}}">
+              <!-- <div class="ng-autocomplete" style="width: 100% !important;">
+                  <ng-autocomplete [data]="data" [searchKeyword]="keyword" (selected)='selectEvent($event)'
+                      (inputChanged)='onChangeSearch($event)' (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate"
+                      [notFoundTemplate]="notFoundTemplate" formControlName="custName" [initialValue]="customerName">
+                  </ng-autocomplete>
+
+                  <ng-template #itemTemplate let-item>
+                      <a [innerHTML]="item.name"></a>
+                  </ng-template>
+
+                  <ng-template #notFoundTemplate let-notFound>
+                      <div [innerHTML]="notFound"></div>
+                  </ng-template>
+              </div> -->
+          </div>
+          <div class="col-4 form-group">
+            <label for="">Date.</label>
+            <input  type="date" class="form-control" id="date" formControlName="date" value="{{myDate}}">
+          </div>
+        </div>
+
+        <label><strong>Customer Details</strong></label>
+            <div class="form-row row">
+                <div class="col-md-3 form-group">
+                    <label for="">GST No.</label>
+                    <input  type="text" class="form-control" id="gstIn" formControlName="custGst" placeholder="GST In" value="{{customergst_no}}" readonly>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="">Address</label>
+                    <input type="text" class="form-control" id="addInput" formControlName="custCity" placeholder="Enter Address" value="{{customeraddress}}" readonly>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="">Mobile No.</label>
+                    <input type="number" class="form-control" id="mobInput" formControlName="custMob" placeholder="Mobile No"  value="{{customerMobile}}" readonly>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="">Email Id</label>
+                    <input type="email" class="form-control" id="emailInput" formControlName="custEmail" placeholder="Email Id" value="{{customerEmail}}" readonly>
+                </div>
+            </div>
+
+
+        <label class="mt-3"><strong>Items</strong></label>
+            <div class="form-row row mt-3" *ngFor="let item of [].constructor(itemNo); let i = index">
+                <div class="col-md-3 form-group">
+                    <label for="">Item Name.</label>
+                    <input type="text" class="form-control" id="item{{i+1}}" formControlName="item{{i+1}}" placeholder="Enter Item Name" >
+                </div>
+                <div class="col-md-2 form-group">
+                    <label for="">Rate.</label>
+                    <input type="number" class="form-control" id="item{{i+1}}Rate" formControlName="item{{i+1}}Rate" placeholder="Rate" (keyup)="calcAmount(i+1)">
+                </div>
+                <div class="col-md-2 form-group">
+                    <label for="">Unit.</label>
+                    <input type="number" class="form-control itemUnit" id="item{{i+1}}Unit" formControlName="item{{i+1}}Unit" placeholder="Unit" (keyup)="calcAmount(i+1)">
+                </div>
+                <div class="col-md-2 form-group">
+                    <label for="">Amount.</label>
+                    <input  type="number" class="form-control" id="item{{i+1}}Price" formControlName="item{{i+1}}Price" placeholder="Price">
+                </div>
+                <div class="col-md-2 form-group">
+                    <label for="">Date.</label>
+                    <input  type="date" class="form-control" id="item{{i+1}}Date" formControlName="item{{i+1}}Date" value="{{myDate | date: 'shortDate' }}">
+                </div>
+                <input  type="hidden" class="form-control" id="item{{i+1}}Id" formControlName="item{{i+1}}Id">
+                <div class="col-md-1 form-group mt-4" *ngIf = "i+1 == itemNo">
+                  <span *ngIf = "itemNo>1" id="addItem" (click) = "removeEle(content,lastEleId)" style="cursor: pointer; font-size: 1.75rem;" class="me-1"><i class="bi bi-trash-fill"></i></span>
+                  <span id="removeItem" (click) = "addEle()" style="cursor: pointer; font-size: 1.75rem;"><i class="bi bi-plus-square-fill"></i></span>
+                </div>
+            </div>
+          <!-- <div class="form-group">
+              <span id="addItem" (click) = "addEle()" style="cursor: pointer; float: right;"><small style="color: blue;">Add More Items<span>&#x2b;</span></small></span>
+          </div> -->
+          <label class="mt-3"><strong>Enginners Details</strong></label>
+        <div class="form-row row ">
+            <div class="col-md-4 form-group">
+                <label for="">Engineers Name.</label>
+                <input type="text" class="form-control" id="engineersName" formControlName="engineersName" placeholder="Enter Engineer's Name" >
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="">Site location.</label>
+                <input type="text" class="form-control" id="siteLocation" formControlName="siteLocation" placeholder="Enter site location">
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="">Site Name.</label>
+                <input type="text" class="form-control" id="siteName" formControlName="siteName" placeholder="Enter site Name">
+            </div>
+        </div>
+
+        <label class="mt-3"><strong>GST Status</strong></label>
+        <div class="radio">
+            <label class="me-3"><input type="radio" formControlName="gst" value="1" checked>   With GST</label>
+            <label class="me-3"><input type="radio" formControlName="gst" value="0"> Without GST</label>
+        </div>
+
+        <label class="mt-3"><strong>Payment Status</strong></label>
+        <div class="radio">
+          <label class="me-3"><input type="radio" formControlName="isPaid" value="0" checked>  Pending</label>
+          <label class="me-3"><input type="radio" formControlName="isPaid" value="1"> Paid</label>
+          <label class="me-3"><input type="radio" formControlName="isPaid" value="2"> Partial Paid</label>
+        </div>
+
+        <div *ngIf = "billForm.value.isPaid == 2" class="mt-3">
+          <label><strong>Amount Paid</strong></label>
+          <div class="col-md-2">
+            <input  type="number" class="form-control" id="amountReceived" formControlName="amountReceived" placeholder="Received Ammount">
+          </div>
+        </div>
+
+        <button type="submit" name="submit" class="btn btn-primary mt-3" [disabled] = "!billForm.valid || isSubmit">Submit</button>
+        <br><small style="text-align: center;" *ngIf="!billForm.valid" class=" text-danger">All field are required*</small>
+    </form>
+</div>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">×</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <p>Are you sure to delete this?</p>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="d('Cross click')">Cancel</button>
+      <button type="button" class="btn btn-danger" (click)="c('yes')">Yes</button>
+  </div>
+</ng-template>
